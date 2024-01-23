@@ -14,13 +14,13 @@ class DataHelper {
   }
 
 
-  static double CalculateAverage(){
+  static double calculateAverage(){
     double totalPoint = 0;
     double totalCredit = 0;
-    allLessons.forEach((element) {
+    for (var element in allLessons) {
       totalPoint = totalPoint + (element.creditValue * element.wordValue);
       totalCredit += element.creditValue; 
-    });
+    }
     return totalPoint/totalCredit;
   }
 
@@ -53,8 +53,8 @@ class DataHelper {
     return lessonWords()
         .map(
           (e) => DropdownMenuItem(
-            child: Text(e),
             value: _changeToPoint(e),
+            child: Text(e),
           ),
         )
         .toList();
@@ -68,8 +68,8 @@ class DataHelper {
     return credits()
         .map(
           (e) => DropdownMenuItem(
-            child: Text(e.toString()),
             value: e.toDouble(),
+            child: Text(e.toString()),
           ),
         )
         .toList();

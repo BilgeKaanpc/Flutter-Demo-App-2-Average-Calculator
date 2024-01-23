@@ -20,8 +20,8 @@ class Constands {
     color: mainColor,
   );
 
-  static final dropDownPadding =
+  static const dropDownPadding =
       EdgeInsets.symmetric(horizontal: 16, vertical: 8);
 
-  static final horizontalPadding8 = EdgeInsets.symmetric(horizontal:8);
+  static const horizontalPadding8 = EdgeInsets.symmetric(horizontal:8);
 }

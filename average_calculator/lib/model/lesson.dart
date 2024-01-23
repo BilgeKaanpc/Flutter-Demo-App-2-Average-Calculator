@@ -6,7 +6,6 @@ class Lesson{
   Lesson({required this.name, required this.wordValue, required this.creditValue});
   @override
   String toString() {
-    // TODO: implement toString
     return "$name $wordValue $creditValue";
   }
 }

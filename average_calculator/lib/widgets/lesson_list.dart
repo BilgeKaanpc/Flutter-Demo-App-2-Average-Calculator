@@ -10,7 +10,7 @@ class LessonList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Lesson> allLesson = DataHelper.allLessons;
-    return allLesson.length > 0
+    return allLesson.isNotEmpty
         ? ListView.builder(
             itemCount: allLesson.length,
             itemBuilder: (context, index) {
@@ -31,7 +31,7 @@ class LessonList extends StatelessWidget {
                           (allLesson[index].wordValue *
                                   allLesson[index].creditValue)
                               .toStringAsFixed(0),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                       subtitle: Text(
@@ -41,10 +41,8 @@ class LessonList extends StatelessWidget {
                 ),
               );
             })
-        : Container(
-            child: Center(
+        : Center(
               child: Text("Please add lesson",style: Constands.titleStyle,),
-            ),
-          );
+            );
   }
 }

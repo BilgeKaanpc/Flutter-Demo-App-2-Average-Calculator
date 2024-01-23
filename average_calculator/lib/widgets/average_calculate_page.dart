@@ -45,7 +45,7 @@ class _AverageCalculateState extends State<AverageCalculate> {
                Expanded(
                   flex: 1,
                   child: ShowAverage(
-                    average: DataHelper.CalculateAverage(),
+                    average: DataHelper.calculateAverage(),
                     lessonCount: DataHelper.allLessons.length,
                   ),
                 ),
@@ -101,7 +101,7 @@ class _AverageCalculateState extends State<AverageCalculate> {
                 ),
               ),
               IconButton(
-                  onPressed: CalculateAverage,
+                  onPressed: calculateAverage,
                   icon: const Icon(
                     Icons.arrow_forward_ios,
                     color: Constands.mainColor,
@@ -125,7 +125,7 @@ class _AverageCalculateState extends State<AverageCalculate> {
         });
       },
       validator: (value) {
-        if (value!.length <= 0) {
+        if (value!.isEmpty) {
           return "please write lesson name";
         } else {
           return null;
@@ -141,14 +141,7 @@ class _AverageCalculateState extends State<AverageCalculate> {
     );
   }
 
-  _buildWords() {
-
-  }
-
-  _buildCredits() {
-  }
-
-  void CalculateAverage() {
+  void calculateAverage() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       var currentLesson = Lesson(
@@ -157,8 +150,8 @@ class _AverageCalculateState extends State<AverageCalculate> {
           creditValue: pickedCreditFromWidget);
 
       DataHelper.addLesson(currentLesson);
-      print(currentLesson.toString());
-      print(DataHelper.CalculateAverage());
+      debugPrint(currentLesson.toString());
+      debugPrint(DataHelper.calculateAverage().toString());
       setState(() {
         
       });
