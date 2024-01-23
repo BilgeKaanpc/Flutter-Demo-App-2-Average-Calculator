@@ -14,7 +14,7 @@ class ShowAverage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          lessonCount > 0 ? "Added: $lessonCount " : "please pick lesson",
+          lessonCount > 0 ? "Added: $lessonCount " : "Pick Lesson",
           style: Constands.lessonCountText,
         ),
         Text(

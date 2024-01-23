@@ -1,7 +1,10 @@
 import 'package:average_calculator/constants/app_constant.dart';
 import 'package:average_calculator/helper/data_helper.dart';
 import 'package:average_calculator/model/lesson.dart';
+import 'package:average_calculator/widgets/credit_dropdown_widget.dart';
+import 'package:average_calculator/widgets/lesson_list.dart';
 import 'package:average_calculator/widgets/show_average.dart';
+import 'package:average_calculator/widgets/word_dropdown_widget.dart';
 import 'package:flutter/material.dart';
 
 class AverageCalculate extends StatefulWidget {
@@ -13,14 +16,14 @@ class AverageCalculate extends StatefulWidget {
 
 class _AverageCalculateState extends State<AverageCalculate> {
   var formKey = GlobalKey<FormState>();
-
-  double pickedValue = 4;
-  double pickedCredit = 4;
+  double pickedWordFromWidget = 4;
+  double pickedCreditFromWidget = 4;
   String pickedLesson = "";
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
@@ -39,20 +42,23 @@ class _AverageCalculateState extends State<AverageCalculate> {
                   flex: 2,
                   child: _buildForm(),
                 ),
-                const Expanded(
+               Expanded(
                   flex: 1,
                   child: ShowAverage(
-                    average: 2.45,
-                    lessonCount: 4,
+                    average: DataHelper.CalculateAverage(),
+                    lessonCount: DataHelper.allLessons.length,
                   ),
                 ),
               ],
             ),
             Expanded(
-              child: Container(
-                child: Text("List Area"),
-                color: Colors.blue,
-              ),
+              child: LessonList(
+                onDismiss: (index){
+                  setState(() {
+                  DataHelper.allLessons.removeAt(index);
+                  });
+                },
+              )
             ),
             //liste
           ],
@@ -77,13 +83,21 @@ class _AverageCalculateState extends State<AverageCalculate> {
               Expanded(
                 child: Padding(
                   padding: Constands.horizontalPadding8,
-                  child: _buildWords(),
+                  child: WordDropDownWidget(
+                    onWordPicked: (v){
+                      pickedWordFromWidget = v;
+                    },
+                  ),
                 ),
               ),
               Expanded(
                 child: Padding(
                   padding: Constands.horizontalPadding8,
-                  child: _buildCredits(),
+                  child: CreditDropDownWidget(
+                    onCreditPicked: (v){
+                      pickedCreditFromWidget = v;
+                    },
+                  ),
                 ),
               ),
               IconButton(
@@ -128,47 +142,10 @@ class _AverageCalculateState extends State<AverageCalculate> {
   }
 
   _buildWords() {
-    return Container(
-      alignment: Alignment.center,
-      padding: Constands.dropDownPadding,
-      decoration: BoxDecoration(
-          color: Constands.mainColor.shade100.withOpacity(0.3),
-          borderRadius: Constands.borderRadius),
-      child: DropdownButton<double>(
-        value: pickedValue,
-        elevation: 16,
-        iconDisabledColor: Constands.mainColor.shade200,
-        onChanged: (value) {
-          setState(() {
-            pickedValue = value!;
-          });
-        },
-        underline: Container(),
-        items: DataHelper.allLessonWords(),
-      ),
-    );
+
   }
 
   _buildCredits() {
-    return Container(
-      alignment: Alignment.center,
-      padding: Constands.dropDownPadding,
-      decoration: BoxDecoration(
-          color: Constands.mainColor.shade100.withOpacity(0.3),
-          borderRadius: Constands.borderRadius),
-      child: DropdownButton<double>(
-        value: pickedCredit,
-        elevation: 16,
-        iconDisabledColor: Constands.mainColor.shade200,
-        onChanged: (value) {
-          setState(() {
-            pickedCredit = value!;
-          });
-        },
-        underline: Container(),
-        items: DataHelper.allCredits(),
-      ),
-    );
   }
 
   void CalculateAverage() {
@@ -176,12 +153,15 @@ class _AverageCalculateState extends State<AverageCalculate> {
       formKey.currentState!.save();
       var currentLesson = Lesson(
           name: pickedLesson,
-          wordValue: pickedValue,
-          creditValue: pickedCredit);
+          wordValue: pickedWordFromWidget,
+          creditValue: pickedCreditFromWidget);
 
       DataHelper.addLesson(currentLesson);
       print(currentLesson.toString());
       print(DataHelper.CalculateAverage());
+      setState(() {
+        
+      });
     }
   }
 }
